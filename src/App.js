@@ -69,7 +69,9 @@ function App() {
 				showFrom={showFrom}
 				setShowForm={setShowForm}
 			/>
-			{showFrom ? <NewFactForm setFacts={setFacts} /> : null}
+			{showFrom ? (
+				<NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
+			) : null}
 
 			<main className='main'>
 				<CategoryFilter />
@@ -97,7 +99,7 @@ function Header({ appTitle, showFrom, setShowForm }) {
 	);
 }
 
-function NewFactForm({ setFacts }) {
+function NewFactForm({ setFacts, setShowForm }) {
 	const [text, setText] = useState('');
 	const [source, setSource] = useState('http://example.com/');
 	const [category, setCategory] = useState('');
@@ -118,6 +120,12 @@ function NewFactForm({ setFacts }) {
 			};
 
 			setFacts((facts) => [newFact, ...facts]);
+
+			setText('');
+			setSource('');
+			setCategory('');
+
+			setShowForm(false);
 		}
 	}
 
