@@ -79,7 +79,20 @@ function NewFactForm() {
 }
 
 function CategoryFilter() {
-	return <aside>Category Filter</aside>;
+	return (
+		<aside>
+			<ul>
+				<li className='category'>
+					<button
+						className='btn btn-category'
+						style={{ backgroundColor: '#3b82f6' }}
+					>
+						Technology
+					</button>
+				</li>
+			</ul>
+		</aside>
+	);
 }
 
 function FactList() {
@@ -92,7 +105,7 @@ function FactList() {
 					<Fact key={fact.id} fact={fact} />
 				))}
 			</ul>
-      <p>There are {facts.length} facts in the database. Add your own!</p>
+			<p>There are {facts.length} facts in the database. Add your own!</p>
 		</section>
 	);
 }
