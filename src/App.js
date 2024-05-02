@@ -101,8 +101,9 @@ function NewFactForm() {
 				placeholder='Share a fact with the world...'
 				value={text}
 				onChange={(ev) => setText(ev.target.value)}
+				maxLength={200}
 			/>
-			<span>200</span>
+			<span>{200 - text.length}</span>
 			<input
 				type='text'
 				placeholder='Trustworthy source...'
