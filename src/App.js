@@ -53,7 +53,8 @@ function App() {
 		<>
 			<Header
 				appTitle='Today I Learned'
-				showFormHandler={() => setShowForm((showFrom) => !showFrom)}
+				showFrom={showFrom}
+				setShowForm={setShowForm}
 			/>
 			{showFrom ? <NewFactForm /> : null}
 
@@ -65,7 +66,7 @@ function App() {
 	);
 }
 
-function Header({ appTitle, showFormHandler }) {
+function Header({ appTitle, showFrom, setShowForm }) {
 	return (
 		<header className='header'>
 			<div className='logo'>
@@ -73,8 +74,11 @@ function Header({ appTitle, showFormHandler }) {
 				<h1>{appTitle}</h1>
 			</div>
 
-			<button className='btn btn-large btn-open' onClick={showFormHandler}>
-				Share a fact
+			<button
+				className='btn btn-large btn-open'
+				onClick={() => setShowForm((showFrom) => !showFrom)}
+			>
+				{showFrom ? 'Close' : 'Share a fact'}
 			</button>
 		</header>
 	);
