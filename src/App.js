@@ -60,6 +60,7 @@ function isValidHttpUrl(string) {
 
 function App() {
 	const [showFrom, setShowForm] = useState(false);
+	const [facts, setFacts] = useState(initialFacts);
 
 	return (
 		<>
@@ -68,11 +69,11 @@ function App() {
 				showFrom={showFrom}
 				setShowForm={setShowForm}
 			/>
-			{showFrom ? <NewFactForm /> : null}
+			{showFrom ? <NewFactForm setFacts={setFacts} /> : null}
 
 			<main className='main'>
 				<CategoryFilter />
-				<FactList />
+				<FactList facts={facts} />
 			</main>
 		</>
 	);
@@ -96,7 +97,7 @@ function Header({ appTitle, showFrom, setShowForm }) {
 	);
 }
 
-function NewFactForm() {
+function NewFactForm({ setFacts }) {
 	const [text, setText] = useState('');
 	const [source, setSource] = useState('http://example.com/');
 	const [category, setCategory] = useState('');
@@ -116,7 +117,7 @@ function NewFactForm() {
 				createdIn: new Date().getFullYear(),
 			};
 
-			console.log(newFact);
+			setFacts((facts) => [newFact, ...facts]);
 		}
 	}
 
@@ -175,9 +176,7 @@ function CategoryFilter() {
 	);
 }
 
-function FactList() {
-	const facts = initialFacts;
-
+function FactList({ facts }) {
 	return (
 		<section>
 			<ul className='facts-list'>
