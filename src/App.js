@@ -46,6 +46,18 @@ const initialFacts = [
 	},
 ];
 
+function isValidHttpUrl(string) {
+	let url;
+
+	try {
+		url = new URL(string);
+	} catch (_) {
+		return false;
+	}
+
+	return url.protocol === 'http:' || url.protocol === 'https:';
+}
+
 function App() {
 	const [showFrom, setShowForm] = useState(false);
 
@@ -86,12 +98,26 @@ function Header({ appTitle, showFrom, setShowForm }) {
 
 function NewFactForm() {
 	const [text, setText] = useState('');
-	const [source, setSource] = useState('');
+	const [source, setSource] = useState('http://example.com/');
 	const [category, setCategory] = useState('');
 
 	function handleSubmit(ev) {
 		ev.preventDefault();
-		console.log(text, source, category);
+
+		if (text && isValidHttpUrl(source) && category) {
+			const newFact = {
+				id: Math.round(Math.random() * 10000000),
+				text,
+				source,
+				category,
+				votesInteresting: 0,
+				votesMindblowing: 0,
+				votesFalse: 0,
+				createdIn: new Date().getFullYear(),
+			};
+
+			console.log(newFact);
+		}
 	}
 
 	return (
