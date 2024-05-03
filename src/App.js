@@ -62,12 +62,12 @@ function isValidHttpUrl(string) {
 
 function App() {
 	const [showFrom, setShowForm] = useState(false);
-	const [facts, setFacts] = useState(initialFacts);
+	const [facts, setFacts] = useState([]);
 
 	useEffect(() => {
 		async function getFacts() {
 			const { data: facts, error } = await supabase.from('facts').select('*');
-			console.log(facts);
+			setFacts(facts);
 		}
 		getFacts();
 	}, []);
