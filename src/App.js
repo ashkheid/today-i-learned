@@ -132,23 +132,21 @@ function NewFactForm({ setFacts, setShowForm }) {
 	const [text, setText] = useState('');
 	const [source, setSource] = useState('http://example.com/');
 	const [category, setCategory] = useState('');
+	const [isUploading, setIsUploading] = useState(false);
 
-	function handleSubmit(ev) {
+	async function handleSubmit(ev) {
 		ev.preventDefault();
 
 		if (text && isValidHttpUrl(source) && category) {
-			const newFact = {
-				id: Math.round(Math.random() * 10000000),
-				text,
-				source,
-				category,
-				votesInteresting: 0,
-				votesMindblowing: 0,
-				votesFalse: 0,
-				createdIn: new Date().getFullYear(),
-			};
+			setIsUploading(true);
+			const { data: newFact, error } = await supabase
+				.from('facts')
+				.insert([{ text, source, category }])
+				.select();
+				
+			setIsUploading(false);
 
-			setFacts((facts) => [newFact, ...facts]);
+			if (!error) setFacts((facts) => [newFact[0], ...facts]);
 
 			setText('');
 			setSource('');
@@ -166,6 +164,7 @@ function NewFactForm({ setFacts, setShowForm }) {
 				value={text}
 				onChange={(ev) => setText(ev.target.value)}
 				maxLength={200}
+				disabled={isUploading}
 			/>
 			<span>{200 - text.length}</span>
 			<input
@@ -173,8 +172,13 @@ function NewFactForm({ setFacts, setShowForm }) {
 				placeholder='Trustworthy source...'
 				value={source}
 				onChange={(ev) => setSource(ev.target.value)}
+				disabled={isUploading}
 			/>
-			<select value={category} onChange={(ev) => setCategory(ev.target.value)}>
+			<select
+				value={category}
+				onChange={(ev) => setCategory(ev.target.value)}
+				disabled={isUploading}
+			>
 				<option value=''>Choose category:</option>
 				{CATEGORIES.map((cat) => {
 					return (
