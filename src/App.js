@@ -134,7 +134,7 @@ function Header({ appTitle, showFrom, setShowForm }) {
 
 function NewFactForm({ setFacts, setShowForm }) {
 	const [text, setText] = useState('');
-	const [source, setSource] = useState('http://example.com/');
+	const [source, setSource] = useState('');
 	const [category, setCategory] = useState('');
 	const [isUploading, setIsUploading] = useState(false);
 
